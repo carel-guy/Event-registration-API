@@ -1,58 +1,58 @@
-# Event Registration API
-Backend service for managing attendee registrations. Built with NestJS, secured with Keycloak, persisting data in MongoDB, and communicating with the Event Management API over gRPC. It also integrates Kafka for messaging, MinIO for file storage, QR code and badge generation, and email delivery for invitations.
+# API d'Inscription aux Événements
+Service backend pour gérer les inscriptions des participants. Construit avec NestJS, sécurisé par Keycloak, persistant les données dans MongoDB et communiquant avec l'API de gestion d'événements via gRPC. Il intègre aussi Kafka pour la messagerie, MinIO pour le stockage de fichiers, la génération de QR codes et de badges, ainsi que l'envoi d'invitations par e-mail.
 
-## What this service does
-- Exposes REST endpoints to create, update, list, and delete event registrations with multi-tenant support.
-- Acts as a gRPC client to the Event Management API (`src/proto/event.proto`) to enrich registrations with event data.
-- Hosts its own gRPC server (`src/proto/registration.proto`) so other services can validate or fetch registration details.
-- Issues QR codes, badges, and invitation letters, storing related assets in MinIO and emailing attendees.
-- Protects routes with Keycloak (bearer-only) and documents REST APIs with Swagger.
-- Streams domain events through Kafka consumers and producers.
+## Ce que fait le service
+- Expose des endpoints REST pour créer, mettre à jour, lister et supprimer des inscriptions, avec support multi-tenant.
+- Agit comme client gRPC de l'API de gestion d'événements (`src/proto/event.proto`) pour enrichir les inscriptions avec les données d'événement.
+- Héberge son propre serveur gRPC (`src/proto/registration.proto`) afin que d'autres services puissent valider ou récupérer les détails d'inscription.
+- Génère des QR codes, badges et lettres d'invitation, stocke les assets associés dans MinIO et envoie des e-mails aux participants.
+- Protège les routes avec Keycloak (mode bearer-only) et documente les APIs REST avec Swagger.
+- Diffuse les événements métier via des consommateurs et producteurs Kafka.
 
 ## Stack
 - NestJS 11 (REST + gRPC)
-- MongoDB via Mongoose
+- MongoDB avec Mongoose
 - Keycloak (nest-keycloak-connect)
 - Kafka (kafkajs)
-- MinIO client for object storage
-- Nodemailer + MJML for email templates
-- QRCode/PDF generation utilities
+- Client MinIO pour le stockage d'objets
+- Nodemailer + MJML pour les templates d'e-mails
+- Outils de génération de QRCode/PDF
 
-## Getting started
-1. Prerequisites: Node.js 18+, npm, MongoDB, Keycloak, Kafka broker, MinIO endpoint, and access to the Event Management API gRPC endpoint.
-2. Install dependencies:
+## Prise en main
+1. Prérequis : Node.js 18+, npm, MongoDB, Keycloak, un broker Kafka, un endpoint MinIO et l'accès au endpoint gRPC de l'API de gestion d'événements.
+2. Installer les dépendances :
    ```bash
    npm install
    ```
-3. Configure environment (see below) in a local `.env` file. Do not commit secrets.
-4. Run the service:
+3. Configurer les variables d'environnement (voir ci-dessous) dans un fichier `.env` local. Ne pas commettre de secrets.
+4. Lancer le service :
    ```bash
-   # watch mode
+   # mode watch
    npm run start:dev
 
-   # production build then run
+   # build de prod puis exécution
    npm run build && npm run start:prod
    ```
-5. API docs are served at `http://<APP_HOST>:<APP_PORT>/api` when the app is running.
+5. La documentation API est disponible sur `http://<APP_HOST>:<APP_PORT>/api` lorsque l'application tourne.
 
 ## Configuration
-Set the following variables in `.env` (values are environment-specific; keep secrets out of version control):
-- App: `APP_HOST`, `APP_PORT`, `EVENT_REGISTRATION_SERVICE_URL`
-- MongoDB: `MONGODB_URI`
-- Event Management gRPC client: `EVENT_SERVICE_URL`
-- Keycloak: `KEYCLOAK_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET`, `KEYCLOAK_ADMIN_USER`, `KEYCLOAK_ADMIN_PASSWORD`
-- Kafka: `KAFKA_HOST`, `KAFKA_PORT`, `KAFKA_CLIENT_ID`, `KAFKA_GROUP_ID`
-- MinIO: `MINIO_ENDPOINT`, `MINIO_PORT`, `MINIO_USE_SSL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET_NAME`, `MINIO_URL`
-- QR/links: `QR_JWT_SECRET`, `EXPO_APP_URL`
-- Email: `GMAIL_USER`, `GMAIL_PASS`
+Définissez les variables suivantes dans `.env` (valeurs spécifiques à l'environnement ; gardez les secrets hors du versionnement) :
+- App : `APP_HOST`, `APP_PORT`, `EVENT_REGISTRATION_SERVICE_URL`
+- MongoDB : `MONGODB_URI`
+- Client gRPC de l'API de gestion d'événements : `EVENT_SERVICE_URL`
+- Keycloak : `KEYCLOAK_URL`, `KEYCLOAK_REALM`, `KEYCLOAK_CLIENT_ID`, `KEYCLOAK_CLIENT_SECRET`, `KEYCLOAK_ADMIN_USER`, `KEYCLOAK_ADMIN_PASSWORD`
+- Kafka : `KAFKA_HOST`, `KAFKA_PORT`, `KAFKA_CLIENT_ID`, `KAFKA_GROUP_ID`
+- MinIO : `MINIO_ENDPOINT`, `MINIO_PORT`, `MINIO_USE_SSL`, `MINIO_ACCESS_KEY`, `MINIO_SECRET_KEY`, `MINIO_BUCKET_NAME`, `MINIO_URL`
+- QR/liens : `QR_JWT_SECRET`, `EXPO_APP_URL`
+- E-mail : `GMAIL_USER`, `GMAIL_PASS`
 
-## Key endpoints and interfaces
-- REST base path: `/event-registrations` (CRUD, filtering, and event lookups by registration).
-- Swagger UI: `/api`.
-- gRPC server: package `registration`, proto `src/proto/registration.proto` (listens on `EVENT_REGISTRATION_SERVICE_URL`).
-- gRPC client to Event Management API: package `event`, proto `src/proto/event.proto` (endpoint `EVENT_SERVICE_URL`).
+## Principaux endpoints et interfaces
+- Base REST : `/event-registrations` (CRUD, filtrage et recherche d'événements par inscription).
+- Swagger UI : `/api`.
+- Serveur gRPC : package `registration`, proto `src/proto/registration.proto` (écoute sur `EVENT_REGISTRATION_SERVICE_URL`).
+- Client gRPC vers l'API de gestion d'événements : package `event`, proto `src/proto/event.proto` (endpoint `EVENT_SERVICE_URL`).
 
-## Testing
+## Tests
 ```bash
 npm test
 npm run test:e2e
@@ -60,5 +60,5 @@ npm run test:cov
 ```
 
 ## Notes
-- Secrets (client secrets, passwords, keys) must be injected via environment/config providers only.
-- This service is designed to run alongside the Event Management API, Keycloak, MongoDB, Kafka, and MinIO; ensure those dependencies are available before starting.
+- Les secrets (client secrets, mots de passe, clés) doivent uniquement être injectés via les fournisseurs d'environnement/de configuration.
+- Ce service est conçu pour fonctionner aux côtés de l'API de gestion d'événements, Keycloak, MongoDB, Kafka et MinIO ; assurez-vous que ces dépendances sont disponibles avant de démarrer.
