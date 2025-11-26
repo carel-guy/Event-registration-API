@@ -1,0 +1,149 @@
+// event-microservice/event.proto
+syntax = "proto3";
+
+package event;
+
+import "google/protobuf/struct.proto";
+
+service EventService {
+  rpc GetEventConfig(EventConfigRequest) returns (EventConfigResponse);
+  rpc GetEventById(GetEventByIdRequest) returns (Event);
+  rpc Ping(PingRequest) returns (PingResponse);
+  rpc GetUserContext(GetUserContextRequest) returns (GetUserContextResponse);
+}
+
+message EventConfigRequest {
+  string tenantId = 1;
+  string eventId = 2;
+}
+
+message EventConfigResponse {
+  repeated RequiredDocument requiredDocuments = 1;
+  repeated TariffRule tariffRules = 2;
+}
+
+message RequiredDocument {
+  string id = 1;
+  string key = 2;
+  string label = 3;
+}
+
+message Condition {
+    string field = 1;
+    string operator = 2;
+    google.protobuf.Value value = 3;
+}
+
+message TariffRule {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  repeated Condition conditions = 4;
+  string currency = 5;
+  bool isActive = 6;
+  double price = 7;
+  string validFrom = 8;
+  string validUntil = 9;
+  string amountType = 10;
+  double amount = 11;
+  string tariffType = 12;
+  string createdAt = 13;
+  string updatedAt = 14;
+}
+
+message Partner {
+  string id = 1;
+  string name = 2;
+  string logo = 3;
+  string website = 4;
+  string description = 5;
+}
+
+message Speaker {
+  string id = 1;
+  string name = 2;
+  string bio = 3;
+  string company = 4;
+  string linkedinUrl = 5;
+  string speakerType = 6;
+  repeated string profilePictureId = 7;
+}
+
+message EventSchedule {
+  string id = 1;
+  string title = 2;
+  string description = 3;
+  string sessionType = 4;
+  string startTime = 5;
+  string endTime = 6;
+  string location = 7;
+  repeated Speaker speakers = 8;
+}
+
+message SocialLink {
+  string platform = 1;
+  string url = 2;
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+}
+
+message GetUserContextRequest {}
+
+message GetUserContextResponse {
+  string userId = 1;
+  string tenantId = 2;
+  repeated string roles = 3;
+}
+
+message GetEventByIdRequest {
+  string eventId = 1;
+  string tenantId = 2;
+}
+
+message Location {
+  string name = 1;
+  string address = 2;
+}
+
+enum EventFormat {
+  IN_PERSON = 0;
+  HYBRID = 1;
+  VIRTUAL = 2;
+  OTHER = 3;
+}
+
+message Event {
+  string id = 1;
+  string tenantId = 2;
+  string title = 3;
+  string description = 4;
+  string type = 5;
+  string status = 6;
+  string startDate = 7;
+  string endDate = 8;
+  string timezone = 9;
+  string avenue = 10;
+  string adresse = 11;
+  string virtualUrl = 12;
+  int32 numberOfParticipants = 13;
+  string currency = 14;
+  string fileReferenceIds = 15;
+  bool isPublic = 16;
+  string createdBy = 17;
+  string updatedBy = 18;
+  string createdAt = 19;
+  string updatedAt = 20;
+  EventFormat format = 21;
+  repeated Location locations = 22;
+  repeated TariffRule tariffRules = 23;
+  repeated Partner partners = 24;
+  repeated EventSchedule eventSchedules = 25;
+  repeated SocialLink socialLinks = 26;
+  // customFieldIds and requiredDocumentIds are kept as string arrays for simplicity
+  repeated string customFieldIds = 27;
+  repeated string requiredDocumentIds = 28;
+}

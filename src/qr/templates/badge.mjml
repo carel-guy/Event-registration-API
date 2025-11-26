@@ -1,0 +1,103 @@
+<mjml>
+  <mj-head>
+    <mj-title>Modern Event Badge</mj-title>
+    <mj-font name="Inter" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" />
+    <mj-attributes>
+      <mj-all font-family="Inter, Arial, sans-serif" padding="0" />
+      <mj-section padding="0" />
+      <mj-column padding="0" />
+    </mj-attributes>
+    <mj-style>
+      .card {
+        border-radius: 16px;
+        box-shadow: 0px 4px 12px rgba(7, 67, 207, 0.88);
+        overflow: hidden;
+        max-width: 400px; /* Keeps badge compact */
+        margin: auto;
+      }
+      .event-title {
+        word-break: break-word;
+        letter-spacing: -0.2px;
+        font-style: italic;
+      }
+      .info-chip {
+        display: inline-block;
+        background: #E0E7FF;
+        border-radius: 20px;
+        padding: 4px 12px;
+        margin: 0 2px 4px;
+        font-size: 13px;
+        color: #255599;
+        font-weight: 500;
+      }
+      .divider {
+        border: 0;
+        border-bottom: 1px dashed #E5E7EB;
+        margin: 12px 0;
+      }
+      /* Ensure no blank page on print */
+      @media print {
+        body, html {
+          margin: 0;
+          padding: 0;
+          height: auto;
+        }
+        .card {
+          page-break-inside: avoid;
+          break-inside: avoid;
+        }
+      }
+    </mj-style>
+  </mj-head>
+  
+  <mj-body background-color="#F8FAFE">
+    <!-- Main Card Container -->
+    <mj-wrapper padding="10px"> <!-- Reduced padding -->
+      <mj-section css-class="card" background-color="#FFFFFF">
+        
+        <!-- Header with Logo (now light background for contrast) -->
+        <mj-column background-color="#F3F4F6" padding="20px 0 15px" border-bottom="2px solid #255599">
+          <mj-image width="90px" src="{{logoSrc}}" alt="Event Logo" padding="0 0 10px"></mj-image>
+        </mj-column>
+        
+        <!-- Attendee Info -->
+        <mj-column padding="20px 20px 10px">
+          <mj-text font-size="24px" font-weight="700" color="#111827" align="center" padding="0 0 6px">
+            {{attendeeFullName}}
+          </mj-text>
+          <mj-text font-size="17px" font-weight="600" color="#255599" align="center" css-class="event-title" padding="0 0 15px">
+            {{eventTitle}}
+          </mj-text>
+          
+          <!-- QR Code -->
+          <mj-image src="{{qrCode}}" alt="Scan QR code" width="140px" padding="0 0 15px" align="center"></mj-image>
+          
+          <!-- Info Chips -->
+          <mj-text align="center" padding="0 0 15px">
+            <span class="info-chip">
+              📅 <em>{{startDate}} – {{endDate}}</em>
+            </span>
+            <span class="info-chip">
+              📍 <em>{{location}}</em>
+            </span>
+            <span class="info-chip">
+              🌐 <em>{{eventFormat}}</em>
+            </span>
+          </mj-text>
+        </mj-column>
+        
+        <!-- Divider -->
+        <mj-column>
+          <mj-divider css-class="divider" padding="0 20px" />
+        </mj-column>
+        
+        <!-- Footer -->
+        <mj-column background-color="#255599" padding="10px 20px">
+          <mj-text font-size="11px" font-weight="600" color="#FFFFFF" align="center" font-style="italic">
+            Powered by Waangu & OPC Burundi
+          </mj-text>
+        </mj-column>
+      </mj-section>
+    </mj-wrapper>
+  </mj-body>
+</mjml>

@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package registration;
+
+import "google/protobuf/timestamp.proto";
+
+service RegistrationService {
+  rpc ValidateRegistration(ValidateRegistrationRequest) returns (ValidateRegistrationResponse);
+  rpc GetRegistrationDetails(GetRegistrationDetailsRequest) returns (GetRegistrationDetailsResponse);
+  rpc Ping(PingRequest) returns (PingResponse);
+}
+
+// --- Message Definitions ---
+
+message ValidateRegistrationRequest {
+  string registrationId = 1;
+  string eventId = 2;
+  string tenantId = 3;
+}
+
+message ValidateRegistrationResponse {
+  bool isValid = 1;
+  string message = 2;
+  string status = 3;
+}
+
+message GetRegistrationDetailsRequest {
+  string registrationId = 1;
+  string tenantId = 2;
+}
+
+message PingRequest {}
+
+message PingResponse {
+  string message = 1;
+  google.protobuf.Timestamp timestamp = 2;
+}
+
+message DocumentInfo {
+  string required_document_id = 1;
+  string file_reference_id = 2;
+}
+
+message GetRegistrationDetailsResponse {
+  string id = 1; // Corresponds to _id
+  string tenant_id = 2;
+  string event_id = 3;
+  string user_id = 4;
+  string qr_code_id = 5;
+  bool badge_generated = 6;
+  string badge_url = 7;
+  bool qr_validated = 8;
+  google.protobuf.Timestamp last_validation_at = 9;
+  string owner = 10;
+  string status = 11;
+  string first_name = 12;
+  string last_name = 13;
+  string email = 14;
+  string phone = 15;
+  string sexe = 16;
+  google.protobuf.Timestamp date_of_birth = 17;
+  int32 year_of_birth = 18;
+  string birth_place = 19;
+  string image_url = 20;
+  string country_of_birth = 21;
+  string nationality = 22;
+  string profession = 23;
+  string profession_doc_id = 24;
+  string organization = 25;
+  string institution = 26;
+  string special_requirements = 27;
+  bool terms = 28;
+  string housing_mode = 29;
+  string accommodation_type = 30;
+  bool is_foreigner = 31;
+  bool needs_visa = 32;
+  string type_document = 33;
+  string document_number = 34;
+  string place_of_issue = 35;
+  google.protobuf.Timestamp date_of_issue = 36;
+  google.protobuf.Timestamp expiration_date = 37;
+  string passport_photo_id = 38;
+  string passport_copy_id = 39;
+  string purpose_of_travel = 40;
+  google.protobuf.Timestamp date_of_arrival_in_burundi = 41;
+  string current_visa_copy_id = 42;
+  string marital_status = 43;
+  string father_first_name = 44;
+  string father_last_name = 45;
+  string mother_first_name = 46;
+  string mother_last_name = 47;
+  string province = 48;
+  string commune = 49;
+  string zone = 50;
+  string colline = 51;
+  string full_address = 52;
+  string contact_person = 53;
+  string contact_number = 54;
+  string reference_person_first = 55;
+  string reference_person_last = 56;
+  string phone_number_reference = 57;
+  string category = 58;
+  string qr_code_file_id = 59;
+  google.protobuf.Timestamp registration_date = 60;
+  string language = 61;
+  repeated DocumentInfo documents = 62;
+  string assigned_tariff_id = 63;
+  float price = 64;
+  string payment_status = 65;
+}

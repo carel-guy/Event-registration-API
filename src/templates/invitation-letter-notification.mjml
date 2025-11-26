@@ -1,0 +1,19 @@
+<mjml>
+  <mj-body>
+    <mj-section>
+      <mj-column>
+        <mj-image width="100px" src="cid:logo"></mj-image>
+        <mj-divider border-color="#F45E43"></mj-divider>
+        <mj-text font-size="20px" color="#F45E43" font-family="helvetica">Invitation Letter for {{eventName}}</mj-text>
+        <mj-text font-size="16px">Dear {{fullName}},</mj-text>
+        <mj-text font-size="16px">Thank you for your registration for the event: <strong>{{eventName}}</strong>.</mj-text>
+        <mj-text font-size="16px">As requested, we have attached your official invitation letter to assist with your visa application. Please find the download link below.</mj-text>
+        <mj-text font-size="16px">Please note that your request for visa assistance is being processed by our team. We will get back to you shortly with more information.</mj-text>
+        <mj-button background-color="#F45E43" href="{{letterUrl}}">Download Your Invitation Letter</mj-button>
+        <mj-text font-size="16px">If you have any questions, feel free to contact us.</mj-text>
+        <mj-text font-size="16px">Best regards,</mj-text>
+        <mj-text font-size="16px">The {{eventName}} Organizing Committee</mj-text>
+      </mj-column>
+    </mj-section>
+  </mj-body>
+</mjml>
